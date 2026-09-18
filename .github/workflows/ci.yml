@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install fastapi ruff
+
+      - name: Python 语法检查
+        run: python -m compileall -q dashboard/
+
+      - name: Python 静态检查（ruff，仅报错不阻断历史风格）
+        run: ruff check dashboard/ --select E9,F --output-format=concise
+
+      - name: JSON 合法性（manifest.json）
+        run: python -c "import json,pathlib; json.loads(pathlib.Path('dashboard/manifest.json').read_text(encoding='utf-8')); print('manifest.json OK')"
+
+      - name: YAML 合法性（plugin.yaml）
+        run: |
+          pip install pyyaml
+          python -c "import yaml,pathlib; d=yaml.safe_load(pathlib.Path('plugin.yaml').read_text(encoding='utf-8')); assert d.get('name'), 'plugin.yaml 缺少 name'; print('plugin.yaml OK ->', d['name'])"
+
+      - name: JS 语法检查（desktop/plugin.js）
+        run: |
+          node --input-type=module --check < desktop/plugin.js && echo "plugin.js OK" || \
+            node --check desktop/plugin.js
