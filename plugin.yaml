@@ -1,0 +1,5 @@
+name: deepseek-usage
+version: 1.0.0
+description: "DeepSeek API 余额 + 峰谷计价（高峰/空闲 + 倒计时）+ 消耗趋势。状态栏芯片 + 桌面面板。"
+author: "小悠"
+kind: standalone

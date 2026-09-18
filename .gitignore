@@ -1,0 +1,19 @@
+# 运行时数据（余额快照，含本机使用情况）
+data/balance_history.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 本地敏感配置
+.env
+*.key

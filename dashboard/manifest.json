@@ -1,0 +1,5 @@
+{
+  "name": "deepseek-usage",
+  "api": "plugin_api.py",
+  "description": "DeepSeek API 余额 + 峰谷计价 + 消耗趋势"
+}
